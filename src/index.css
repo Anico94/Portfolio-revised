@@ -1,0 +1,85 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Theme — the green palette. Every colour lives here and nowhere else, so a
+   palette change is a one-file edit. Tailwind v4 turns each --color-* token
+   into utilities automatically: bg-shadow, text-custard, border-fern, etc.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-custard: #d0db97;
+  --color-emerald: #69b578;
+  --color-fern: #3a7d44;
+  --color-spruce: #254d32;
+  --color-shadow: #181d27;
+
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --animate-reveal: reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    /* The backdrop element is fixed on top of this, but painting the base
+       colour here too avoids any white flash before hydration and keeps
+       iOS overscroll on-theme. */
+    @apply bg-shadow font-sans text-custard/80 antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-custard font-semibold tracking-tight text-balance;
+  }
+
+  /* One consistent focus treatment across links, buttons and inputs. */
+  :focus-visible {
+    @apply outline-emerald outline-2 outline-offset-2;
+  }
+
+  ::selection {
+    @apply bg-emerald/30 text-custard;
+  }
+}
+
+@layer utilities {
+  /* Panel surface used by every card so they stay visually identical. */
+  .surface {
+    @apply border-custard/10 bg-spruce/25 rounded-2xl border backdrop-blur-sm;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
