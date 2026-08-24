@@ -1,30 +1,63 @@
 export interface TechGroup {
   title: string
   /** Lucide icon name, resolved in TechStack.tsx. */
-  icon: 'Code2' | 'Layout' | 'Server' | 'Wrench'
+  icon: 'Layout' | 'Server' | 'Wrench' | 'Bot'
   items: string[]
 }
 
-/** TODO: swap these for the tools you actually use. */
 export const techStack: TechGroup[] = [
   {
-    title: 'Languages',
-    icon: 'Code2',
-    items: ['TypeScript', 'JavaScript', 'Python', 'SQL', 'HTML', 'CSS'],
+    title: 'Backend',
+    icon: 'Server',
+    items: [
+      'C#',
+      '.NET / .NET Core',
+      'EF & EF Core',
+      'OpenAPI',
+      'RabbitMQ',
+      'Azure Service Bus',
+      'xUnit',
+      'NSubstitute',
+      'Python',
+      'Postman',
+    ],
   },
   {
     title: 'Frontend',
     icon: 'Layout',
-    items: ['React', 'Next.js', 'Tailwind CSS', 'Vite', 'React Router', 'Zustand'],
+    items: [
+      'Angular',
+      'TypeScript',
+      'JavaScript',
+      'RxJS',
+      'Angular Material',
+      'HTML',
+      'CSS',
+      'Sass',
+      'Tailwind',
+      'Jest',
+    ],
   },
   {
-    title: 'Backend & Data',
-    icon: 'Server',
-    items: ['Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Redis', 'REST & GraphQL'],
-  },
-  {
-    title: 'Tooling & Practice',
+    title: 'Data / DevOps',
     icon: 'Wrench',
-    items: ['Git', 'Docker', 'GitHub Actions', 'Vitest', 'Playwright', 'Figma'],
+    items: [
+      'SQL',
+      'PostgreSQL',
+      'SQL Server',
+      'Docker',
+      'GCP',
+      'Azure',
+      'Git',
+      'GitHub',
+      'GitHub Actions',
+      'Bitbucket',
+      'Jira',
+    ],
+  },
+  {
+    title: 'AI Tools',
+    icon: 'Bot',
+    items: ['GitHub Copilot', 'Claude Code', 'Opencode', 'ChatGPT', 'MCP/Docker MCP Gateway'],
   },
 ]

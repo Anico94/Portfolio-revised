@@ -1,9 +1,9 @@
-import { Code2, Layout, Server, Wrench, type LucideIcon } from 'lucide-react'
+import { Bot, Layout, Server, Wrench, type LucideIcon } from 'lucide-react'
 import { techStack } from '../data/techStack'
 import Reveal from '../components/Reveal'
 import Section from '../components/Section'
 
-const icons: Record<string, LucideIcon> = { Code2, Layout, Server, Wrench }
+const icons: Record<string, LucideIcon> = { Bot, Layout, Server, Wrench }
 
 export default function TechStack() {
   return (
@@ -11,7 +11,7 @@ export default function TechStack() {
       id="tech-stack"
       eyebrow="Tech stack"
       title="Tools I reach for"
-      intro="Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. The list below is what I use day to day rather than everything I have ever touched."
+      intro="The list below is what I use day to day rather than everything I have ever touched. You will find in my projects how I have been able to utilise these tools"
     >
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {techStack.map((group, index) => {

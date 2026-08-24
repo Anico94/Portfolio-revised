@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, MapPin } from 'lucide-react'
 import { site } from '../data/site'
-import PlaceholderImage from '../components/PlaceholderImage'
 import Reveal from '../components/Reveal'
+import portrait from '../assets/hero.jpeg'
 
 export default function Hero() {
   return (
     <section
       id="home"
       aria-labelledby="home-heading"
-      className="scroll-mt-20 px-5 pt-28 pb-16 sm:px-8 sm:pt-36 sm:pb-20 lg:pt-44"
+      className="scroll-mt-20 px-5 pt-20 pb-8 sm:px-8 sm:pt-24 sm:pb-12 lg:pt-28 lg:pb-16"
     >
       <div className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
         <Reveal>
@@ -49,7 +49,12 @@ export default function Hero() {
 
         <Reveal delay={120}>
           <div className="surface p-3">
-            <PlaceholderImage label="Portrait or hero visual" ratio="4 / 5" />
+            <img
+              src={portrait}
+              alt={site.name}
+              className="w-full rounded-xl object-cover"
+              style={{ aspectRatio: '4 / 5' }}
+            />
           </div>
         </Reveal>
       </div>

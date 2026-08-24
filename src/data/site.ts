@@ -4,16 +4,16 @@
  * TODO: replace every placeholder below with your real details.
  */
 export const site = {
-  name: 'Your Name',
-  initials: 'YN',
-  role: 'Full-Stack Developer',
+  name: 'Alex Nicolaidis',
+  initials: 'AN',
+  role: 'Software Engineer',
   tagline:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  location: 'City, Country',
-  email: 'you@example.com',
+    'I build conveyancing and due diligence platforms for a legal tech company, using .NET and Angular to help UK clients move property deals forward.',
+  location: 'London, UK',
+  email: 'a.nicolaidis@outlook.com',
   socials: {
-    github: 'https://github.com/your-username',
-    linkedin: 'https://linkedin.com/in/your-username',
+    github: 'https://github.com/Anico94',
+    linkedin: 'https://www.linkedin.com/in/alexnicolaidis/',
   },
 } as const
 

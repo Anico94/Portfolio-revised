@@ -1,6 +1,6 @@
 import Section from '../components/Section'
 import Reveal from '../components/Reveal'
-import PlaceholderImage from '../components/PlaceholderImage'
+import aboutPhoto from '../assets/aboutme.png'
 
 /** TODO: replace with your own facts. */
 const facts = [
@@ -21,25 +21,49 @@ export default function About() {
       <div className="grid gap-8 lg:grid-cols-[1fr_1.3fr] lg:gap-12">
         <Reveal>
           <div className="surface p-3">
-            <PlaceholderImage label="Photo of you at work" ratio="1 / 1" />
+            <img
+              src={aboutPhoto}
+              alt="Photo of Alex"
+              className="w-full rounded-xl object-cover"
+              style={{ aspectRatio: '1 / 1' }}
+            />
           </div>
         </Reveal>
 
         <Reveal delay={100}>
           <div className="space-y-4 text-base leading-relaxed">
             <p>
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur.
+              I'm a full-stack software engineer with three years in legal tech. I build .NET
+              microservices, migrate legacy monolithic UIs onto modern stacks, and refactor old
+              code to fix security issues.
             </p>
             <p>
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit
-              voluptatem accusantium doloremque laudantium, totam rem aperiam.
+              I care as much about the communication side of engineering as the code. I work
+              closely with stakeholders to understand what the business actually needs, then build
+              features that are practical, secure, and don't take longer to ship than they should.
+              I keep documentation updated alongside the code, so the team doesn't lose track of
+              how a system works.
             </p>
             <p>
-              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-              consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+              I use AI to take the boring parts of the job off my plate, boilerplate, repetitive
+              refactors, first drafts of documentation, so I can spend the saved time on the harder
+              problems. I also use it as a reasoning partner, to stress-test an approach before I
+              commit to it or catch a flaw in my own thinking.
+            </p>
+            <p>
+              I do my best work in high-trust teams, where feedback goes both ways and ideas get
+              challenged before they get built. Working toward a shared goal, with everyone pushing
+              each other to improve, is what makes a team worth being on.
+            </p>
+            <p>
+              Before software, I spent seven years as a chartered structural engineer, leading
+              technical teams on multi-billion pound infrastructure projects. That background is
+              why I care about reliability and cutting manual work down, rather than just shipping
+              something that works.
+            </p>
+            <p>
+              Outside of work, I travel, cook, and stay active with sport. Skiing and the local pub
+              quiz are regulars.
             </p>
 
             <dl className="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4">

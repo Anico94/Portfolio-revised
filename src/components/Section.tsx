@@ -29,7 +29,7 @@ export default function Section({
     <section
       id={id}
       aria-labelledby={`${id}-heading`}
-      className={`scroll-mt-20 px-5 py-16 sm:px-8 sm:py-20 lg:py-28 ${className}`}
+      className={`scroll-mt-20 px-5 py-8 sm:px-8 sm:py-12 lg:py-16 ${className}`}
     >
       <div className="mx-auto w-full max-w-6xl">
         <Reveal>
