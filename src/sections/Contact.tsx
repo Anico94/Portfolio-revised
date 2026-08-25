@@ -1,9 +1,10 @@
-import { useId, useState, type FormEvent } from 'react'
+import { useId, useRef, useState, type FormEvent } from 'react'
 import { CircleAlert, CircleCheck, Loader2, Mail, Send } from 'lucide-react'
 import { site } from '../data/site'
 import { GithubIcon, LinkedinIcon } from '../components/BrandIcons'
 import Reveal from '../components/Reveal'
 import Section from '../components/Section'
+import { ThrottleError, isEmailConfigured, sendContactEmail } from '../lib/email'
 
 interface Fields {
   name: string
@@ -19,17 +20,34 @@ type Status =
 
 const empty: Fields = { name: '', email: '', message: '' }
 
-/** Set VITE_CONTACT_ENDPOINT in .env.local to start delivering messages. */
-const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined
+/** Focus order for the first invalid field after a failed submit. */
+const fieldOrder = ['name', 'email', 'message'] as const
+
+const nameMax = 80
+const emailMax = 254
+const messageMin = 10
+const messageMax = 2000
 
 function validate(fields: Fields): Partial<Record<keyof Fields, string>> {
   const errors: Partial<Record<keyof Fields, string>> = {}
-  if (!fields.name.trim()) errors.name = 'Please tell me your name.'
-  if (!fields.email.trim()) errors.email = 'Please add an email address.'
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.trim()))
+
+  const name = fields.name.trim()
+  if (!name) errors.name = 'Please tell me your name.'
+  else if (name.length > nameMax) errors.name = `Please keep your name under ${nameMax} characters.`
+
+  const email = fields.email.trim()
+  if (!email) errors.email = 'Please add an email address.'
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     errors.email = 'That email address does not look right.'
-  if (fields.message.trim().length < 10)
-    errors.message = 'A little more detail helps — at least 10 characters.'
+  else if (email.length > emailMax) errors.email = 'That email address is too long.'
+
+  const message = fields.message.trim()
+  if (!message) errors.message = 'Please add a message.'
+  else if (message.length < messageMin)
+    errors.message = `A little more detail helps — at least ${messageMin} characters.`
+  else if (message.length > messageMax)
+    errors.message = `That is a little long — please keep it under ${messageMax} characters.`
+
   return errors
 }
 
@@ -38,25 +56,39 @@ export default function Contact() {
   const [fields, setFields] = useState<Fields>(empty)
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({})
   const [status, setStatus] = useState<Status>({ state: 'idle' })
+  const [submitAttempted, setSubmitAttempted] = useState(false)
+
+  const inputs = {
+    name: useRef<HTMLInputElement>(null),
+    email: useRef<HTMLInputElement>(null),
+    message: useRef<HTMLTextAreaElement>(null),
+  }
 
   const update = (key: keyof Fields) => (event: { target: { value: string } }) => {
-    setFields((current) => ({ ...current, [key]: event.target.value }))
-    // Clear a field's error as soon as the user starts fixing it.
-    setErrors((current) => ({ ...current, [key]: undefined }))
+    const next = { ...fields, [key]: event.target.value }
+    setFields(next)
+    // Before the first submit, just clear the field's error; after it, keep the
+    // whole form's errors live so the visitor can see them resolve as they type.
+    setErrors((current) =>
+      submitAttempted ? validate(next) : { ...current, [key]: undefined },
+    )
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setSubmitAttempted(true)
 
     const nextErrors = validate(fields)
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) {
       setStatus({ state: 'idle' })
+      const firstInvalid = fieldOrder.find((key) => nextErrors[key])
+      if (firstInvalid) inputs[firstInvalid].current?.focus()
       return
     }
 
-    // No endpoint configured yet: say so plainly instead of failing a fetch.
-    if (!endpoint) {
+    // No EmailJS credentials yet: say so plainly instead of failing a send.
+    if (!isEmailConfigured) {
       setStatus({
         state: 'sent',
         message:
@@ -67,24 +99,25 @@ export default function Contact() {
 
     setStatus({ state: 'sending' })
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(fields),
-      })
-      if (!response.ok) throw new Error(`Request failed with ${response.status}`)
+      await sendContactEmail(fields)
 
       setFields(empty)
+      setSubmitAttempted(false)
       setStatus({ state: 'sent', message: 'Thanks — your message is on its way. I will reply soon.' })
-    } catch {
+    } catch (error) {
+      // The throttle speaks for itself; anything else gets the fallback address.
       setStatus({
         state: 'error',
-        message: `Something went wrong sending that. Please email me at ${site.email} instead.`,
+        message:
+          error instanceof ThrottleError
+            ? error.message
+            : `Something went wrong sending that. Please email me at ${site.email} instead.`,
       })
     }
   }
 
   const sending = status.state === 'sending'
+  const messageLength = fields.message.trim().length
   const fieldClass =
     'w-full rounded-xl border bg-shadow/50 px-4 py-3 text-custard placeholder:text-custard/35 transition-colors focus:border-emerald disabled:opacity-60'
 
@@ -104,6 +137,7 @@ export default function Contact() {
               </label>
               <input
                 id={`${id}-name`}
+                ref={inputs.name}
                 name="name"
                 type="text"
                 autoComplete="name"
@@ -128,6 +162,7 @@ export default function Contact() {
               </label>
               <input
                 id={`${id}-email`}
+                ref={inputs.email}
                 name="email"
                 type="email"
                 autoComplete="email"
@@ -155,23 +190,38 @@ export default function Contact() {
               </label>
               <textarea
                 id={`${id}-message`}
+                ref={inputs.message}
                 name="message"
                 rows={5}
                 value={fields.message}
                 onChange={update('message')}
                 disabled={sending}
                 aria-invalid={Boolean(errors.message)}
-                aria-describedby={errors.message ? `${id}-message-error` : undefined}
+                aria-describedby={
+                  errors.message ? `${id}-message-error ${id}-message-count` : `${id}-message-count`
+                }
                 placeholder="Tell me about what you are working on…"
                 className={`${fieldClass} resize-y ${
                   errors.message ? 'border-red-400/70' : 'border-custard/15'
                 }`}
               />
-              {errors.message && (
-                <p id={`${id}-message-error`} className="mt-1.5 text-sm text-red-300">
-                  {errors.message}
+              <div className="mt-1.5 flex items-start justify-between gap-3">
+                {errors.message ? (
+                  <p id={`${id}-message-error`} className="text-sm text-red-300">
+                    {errors.message}
+                  </p>
+                ) : (
+                  <span />
+                )}
+                <p
+                  id={`${id}-message-count`}
+                  className={`shrink-0 text-sm tabular-nums ${
+                    messageLength > messageMax ? 'text-red-300' : 'text-custard/40'
+                  }`}
+                >
+                  {messageLength}/{messageMax}
                 </p>
-              )}
+              </div>
             </div>
 
             <button

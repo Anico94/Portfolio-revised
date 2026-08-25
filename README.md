@@ -68,17 +68,33 @@ import cover from '../assets/orbit-cover.png'
 
 ## Wiring up the contact form
 
-The form validates and shows all its states out of the box, but has nowhere to send
-messages until you give it an endpoint.
+The form sends through [EmailJS](https://www.emailjs.com) — no backend needed. It
+validates and shows all its states out of the box, but has nowhere to send messages
+until you give it credentials.
 
 1. Copy `.env.example` to `.env.local`
-2. Set `VITE_CONTACT_ENDPOINT` to any URL that accepts a JSON POST of
-   `{ name, email, message }` — a [Formspree](https://formspree.io) form URL is the
-   quickest option
-3. Restart the dev server
+2. Fill in the three values from your EmailJS dashboard:
 
-Until then the form tells the visitor it is not connected and points them at the
-direct email link below it.
+   | Variable | Where to find it |
+   | --- | --- |
+   | `VITE_EMAILJS_SERVICE_ID` | Email Services → the service you send through |
+   | `VITE_EMAILJS_TEMPLATE_ID` | Email Templates → the template the form fills in |
+   | `VITE_EMAILJS_PUBLIC_KEY` | Account → General → "Public Key" |
+
+3. Make sure the template uses these variables: `{{userName}}`, `{{userEmail}}`,
+   `{{message}}`. A variable the template does not reference is simply dropped, so a
+   template missing `{{userName}}` still sends — it just leaves the name out.
+4. Restart the dev server
+
+Leave any of the three unset and the form tells the visitor it is not connected and
+points them at the direct email link below it.
+
+The public key is meant to ship in the client bundle — it is not a secret. Restrict
+delivery with EmailJS's allowed-origins and rate-limit settings rather than by hiding
+it. The form also throttles itself to one send every two seconds.
+
+When you deploy, set the same three variables as build-time environment variables on
+your host — `.env.local` is not committed.
 
 ## Theme
 
@@ -108,6 +124,7 @@ src/
   components/           Backdrop, Navbar, Footer, Section, Reveal,
                         ProjectCard, PlaceholderImage, BrandIcons, ScrollManager
   hooks/                useActiveSection (nav scroll-spy)
+  lib/                  email (EmailJS transport for the contact form)
   sections/             Hero, About, Projects, TechStack, UserManual, Contact
   pages/                Home, ProjectDetail, NotFound
   data/                 all editable content

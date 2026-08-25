@@ -11,7 +11,8 @@ to find every placeholder.
 
 - **React 19** + **TypeScript** (strict), bundled with **Vite 8**
 - **Tailwind CSS v4**, configured entirely in CSS (no `tailwind.config.js`)
-- **react-router-dom v7** for routing, **lucide-react** for icons
+- **react-router-dom v7** for routing, **lucide-react** for icons, **@emailjs/browser** for the
+  contact form
 - **oxlint** for linting. No test framework is set up.
 
 ## Architecture
@@ -34,9 +35,13 @@ All three render inside the `App` shell via `<Outlet />`.
   heading/spacing/scroll-offset) and reveals on scroll via `Reveal` (respects `prefers-reduced-motion`).
 - `src/data/*.ts` — **all editable content**. Pages/sections read from here; edit data, not markup,
   to change copy. See README's "Filling in your content".
+- `src/lib/email.ts` — EmailJS transport for the contact form: `isEmailConfigured`, `ThrottleError`
+  and `sendContactEmail`. Named exports (not a component or hook). Keeps the send path, the 2 s
+  throttle and the env reads out of `Contact.tsx`.
 
 Layer layout: `pages/` (route views) compose `sections/` (Hero, About, Projects, TechStack,
-UserManual, Contact), which use shared `components/` and read from `data/`.
+UserManual, Contact), which use shared `components/`, read from `data/`, and call into `lib/` for
+side-effectful work (currently just email).
 
 ## Conventions
 
@@ -74,8 +79,11 @@ run both before considering a change done.
   paths to `/index.html` or a refresh on `/projects/<slug>` 404s. See README "Deploying".
 - **Nav must stay in sync**: hashes in `navLinks` (`src/data/site.ts`) must match the `id` of the
   corresponding `Section`, or scroll-spy and nav links break.
-- **Contact form is inert until configured**: it needs `VITE_CONTACT_ENDPOINT` in `.env.local`
-  (see `.env.example`). Without it the form validates but tells the visitor it's not connected.
+- **Contact form is inert until configured**: it needs `VITE_EMAILJS_SERVICE_ID`,
+  `VITE_EMAILJS_TEMPLATE_ID` and `VITE_EMAILJS_PUBLIC_KEY` in `.env.local` (see `.env.example`).
+  Miss any one and the form validates but tells the visitor it's not connected. The EmailJS
+  template must use `{{userName}}`, `{{userEmail}}`, `{{message}}` — these names are set in
+  `src/lib/email.ts` and must stay in sync with the template.
 - **`src/assets/` doesn't exist yet**: images render via `PlaceholderImage`. Create the folder when
   wiring real images (README "Images").
 
