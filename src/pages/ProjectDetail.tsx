@@ -80,7 +80,16 @@ export default function ProjectDetail() {
 
         <Reveal delay={80}>
           <div className="surface mt-10 p-3">
-            <PlaceholderImage label={project.cover.label} ratio={project.cover.ratio} />
+            {project.cover.src ? (
+              <img
+                src={project.cover.src}
+                alt={project.cover.label}
+                style={{ aspectRatio: project.cover.ratio }}
+                className="w-full rounded-xl object-cover"
+              />
+            ) : (
+              <PlaceholderImage label={project.cover.label} ratio={project.cover.ratio} />
+            )}
           </div>
         </Reveal>
 

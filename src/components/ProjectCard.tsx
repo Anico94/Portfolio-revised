@@ -16,11 +16,20 @@ export default function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="surface group hover:border-emerald/40 relative flex h-full flex-col overflow-hidden transition-colors duration-300 focus-within:border-emerald/40">
       <div className="p-3 pb-0">
-        <PlaceholderImage
-          label={project.cover.label}
-          ratio={project.cover.ratio}
-          className="transition-transform duration-500 group-hover:scale-[1.02]"
-        />
+        {project.cover.src ? (
+          <img
+            src={project.cover.src}
+            alt={project.cover.label}
+            style={{ aspectRatio: project.cover.ratio }}
+            className="border-custard/10 w-full rounded-xl border object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          />
+        ) : (
+          <PlaceholderImage
+            label={project.cover.label}
+            ratio={project.cover.ratio}
+            className="transition-transform duration-500 group-hover:scale-[1.02]"
+          />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-5">

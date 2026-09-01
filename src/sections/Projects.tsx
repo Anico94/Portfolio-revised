@@ -9,7 +9,7 @@ export default function Projects() {
       id="projects"
       eyebrow="Projects"
       title="Selected work"
-      intro="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Open a case study for the full story, or jump straight to the live site."
+      intro="A collection of both work and personal projects"
     >
       <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project, index) => (
