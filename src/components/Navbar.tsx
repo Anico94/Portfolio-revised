@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { navLinks, site } from '../data/site'
+import ThemeToggle from './ThemeToggle.tsx'
 import useActiveSection from '../hooks/useActiveSection'
 
 const sectionIds = navLinks.map((link) => link.hash.slice(1))
@@ -93,45 +94,56 @@ export default function Navbar() {
           <span className="text-custard hidden sm:inline">{site.name}</span>
         </Link>
 
-        {/* Desktop links */}
-        <ul className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => (
-            <li key={link.hash}>
-              <Link
-                to={`/${link.hash}`}
-                aria-current={isCurrent(link.hash) ? 'true' : undefined}
-                className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                  isCurrent(link.hash)
-                    ? 'text-emerald bg-emerald/10'
-                    : 'text-custard/70 hover:text-custard hover:bg-custard/5'
-                }`}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-          <li className="ml-2">
-            <Link
-              to="/#contact"
-              className="bg-emerald text-shadow hover:bg-custard rounded-lg px-4 py-2 text-sm font-semibold transition-colors"
-            >
-              Hire me
-            </Link>
-          </li>
-        </ul>
+        {/* Right-hand group. Kept in one flex box so the nav's justify-between
+            still reads as "brand left, everything else right" now that there is
+            more than one thing on the right. */}
+        <div className="flex items-center gap-1 md:gap-2">
+          {/* Desktop links */}
+          <ul className="hidden items-center gap-1 md:flex">
+            {navLinks.map((link) => (
+              <li key={link.hash}>
+                <Link
+                  to={`/${link.hash}`}
+                  aria-current={isCurrent(link.hash) ? 'true' : undefined}
+                  className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                    isCurrent(link.hash)
+                      ? 'text-emerald bg-emerald/10'
+                      : 'text-custard/70 hover:text-custard hover:bg-custard/5'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-        {/* Mobile toggle */}
-        <button
-          ref={toggleRef}
-          type="button"
-          onClick={() => setOpen((value) => !value)}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          className="text-custard hover:bg-custard/10 grid size-11 place-items-center rounded-lg transition-colors md:hidden"
-        >
-          {open ? <X className="size-6" aria-hidden /> : <Menu className="size-6" aria-hidden />}
-        </button>
+          {/* Visible at every breakpoint, and outside the mobile panel below, so
+              it stays one tap away and out of the panel's focus trap. */}
+          <ThemeToggle />
+
+          {/* Desktop CTA. A call to action rather than a nav destination, so it
+              sits outside the list. */}
+          <Link
+            to="/#contact"
+            className="bg-emerald text-shadow hover:bg-custard hidden rounded-lg px-4 py-2 text-sm font-semibold transition-colors md:inline-block"
+          >
+            Hire me
+          </Link>
+
+          {/* Mobile menu toggle */}
+          <button
+            ref={toggleRef}
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            className="text-custard hover:bg-custard/10 grid size-11 place-items-center rounded-lg transition-colors md:hidden"
+          >
+            {open ? <X className="size-6" aria-hidden /> : <Menu className="size-6" aria-hidden />}
+          </button>
+        </div>
+
       </nav>
 
       {/* Mobile panel */}

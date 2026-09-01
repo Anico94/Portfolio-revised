@@ -147,10 +147,10 @@ export default function Contact() {
                 aria-invalid={Boolean(errors.name)}
                 aria-describedby={errors.name ? `${id}-name-error` : undefined}
                 placeholder="Ada Lovelace"
-                className={`${fieldClass} ${errors.name ? 'border-red-400/70' : 'border-custard/15'}`}
+                className={`${fieldClass} ${errors.name ? 'border-danger/70' : 'border-custard/15'}`}
               />
               {errors.name && (
-                <p id={`${id}-name-error`} className="mt-1.5 text-sm text-red-300">
+                <p id={`${id}-name-error`} className="mt-1.5 text-sm text-danger">
                   {errors.name}
                 </p>
               )}
@@ -172,10 +172,10 @@ export default function Contact() {
                 aria-invalid={Boolean(errors.email)}
                 aria-describedby={errors.email ? `${id}-email-error` : undefined}
                 placeholder="ada@example.com"
-                className={`${fieldClass} ${errors.email ? 'border-red-400/70' : 'border-custard/15'}`}
+                className={`${fieldClass} ${errors.email ? 'border-danger/70' : 'border-custard/15'}`}
               />
               {errors.email && (
-                <p id={`${id}-email-error`} className="mt-1.5 text-sm text-red-300">
+                <p id={`${id}-email-error`} className="mt-1.5 text-sm text-danger">
                   {errors.email}
                 </p>
               )}
@@ -202,12 +202,12 @@ export default function Contact() {
                 }
                 placeholder="Tell me about what you are working on…"
                 className={`${fieldClass} resize-y ${
-                  errors.message ? 'border-red-400/70' : 'border-custard/15'
+                  errors.message ? 'border-danger/70' : 'border-custard/15'
                 }`}
               />
               <div className="mt-1.5 flex items-start justify-between gap-3">
                 {errors.message ? (
-                  <p id={`${id}-message-error`} className="text-sm text-red-300">
+                  <p id={`${id}-message-error`} className="text-sm text-danger">
                     {errors.message}
                   </p>
                 ) : (
@@ -216,7 +216,7 @@ export default function Contact() {
                 <p
                   id={`${id}-message-count`}
                   className={`shrink-0 text-sm tabular-nums ${
-                    messageLength > messageMax ? 'text-red-300' : 'text-custard/40'
+                    messageLength > messageMax ? 'text-danger' : 'text-custard/40'
                   }`}
                 >
                   {messageLength}/{messageMax}
@@ -251,8 +251,8 @@ export default function Contact() {
                 </p>
               )}
               {status.state === 'error' && (
-                <p className="flex gap-2.5 rounded-xl border border-red-400/30 bg-red-400/10 p-4 text-sm text-red-100">
-                  <CircleAlert className="mt-0.5 size-5 shrink-0 text-red-300" aria-hidden />
+                <p className="flex gap-2.5 rounded-xl border border-danger/30 bg-danger/10 p-4 text-sm text-danger">
+                  <CircleAlert className="mt-0.5 size-5 shrink-0 text-danger" aria-hidden />
                   {status.message}
                 </p>
               )}

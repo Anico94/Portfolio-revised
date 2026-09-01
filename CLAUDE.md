@@ -31,6 +31,10 @@ All three render inside the `App` shell via `<Outlet />`.
   from any route.
 - `src/hooks/useActiveSection.ts` — IntersectionObserver scroll-spy that tells the navbar which
   section is current.
+- `src/hooks/useTheme.ts` + `components/ThemeToggle.tsx` — light/dark. The hook owns the choice
+  (`data-theme` on `<html>`, `localStorage`, the `theme-color` meta); the toggle is the sun/moon
+  button in the navbar. Render `ThemeToggle` **once** — it holds the theme in local state, so a
+  second instance would drift out of sync.
 - `src/components/Section.tsx` + `Reveal.tsx` — every home section is wrapped in `Section` (consistent
   heading/spacing/scroll-offset) and reveals on scroll via `Reveal` (respects `prefers-reduced-motion`).
 - `src/data/*.ts` — **all editable content**. Pages/sections read from here; edit data, not markup,
@@ -54,7 +58,10 @@ side-effectful work (currently just email).
   extensions in local imports (bundler mode allows it, and the codebase does it).
 - **Styling**: Tailwind utility classes only; colors come from theme tokens (`bg-shadow`,
   `text-custard`, `border-fern`, …) defined in the `@theme` block of `src/index.css`. Change a hex
-  there to restyle the whole site — do not hardcode colors.
+  there to restyle the whole site — do not hardcode colors. The tokens are *roles* named after
+  their dark-mode value (`shadow` = page background, `custard` = ink), and light mode re-points the
+  same names at new values — so a new color must go through a token, never a literal or a default
+  Tailwind palette shade, or it will not follow the theme.
 - **TS is strict**: unused locals/params fail the build (`tsc -b`). Keep signatures clean.
 
 ## Common Commands
@@ -84,6 +91,13 @@ run both before considering a change done.
   Miss any one and the form validates but tells the visitor it's not connected. The EmailJS
   template must use `{{userName}}`, `{{userEmail}}`, `{{message}}` — these names are set in
   `src/lib/email.ts` and must stay in sync with the template.
+- **Light mode is a token override, not a `dark:` variant.** `html[data-theme='light']` in
+  `src/index.css` re-points the six color tokens. Keep the `html` type selector: Tailwind emits
+  `@theme` onto `:root` (specificity 0,1,0), so a bare `[data-theme='light']` would only tie and
+  leave the result to source order. The block must also stay *outside* `@theme` — a second `@theme`
+  merges into the same `:root` set instead of creating a conditional one.
+- **The anti-flash script is duplicated state**: `index.html` reads `localStorage['theme']` inline
+  before first paint. That key and the `'light'` value must stay in sync with `src/hooks/useTheme.ts`.
 - **`src/assets/` doesn't exist yet**: images render via `PlaceholderImage`. Create the folder when
   wiring real images (README "Images").
 

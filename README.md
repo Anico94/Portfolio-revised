@@ -99,20 +99,37 @@ your host — `.env.local` is not committed.
 ## Theme
 
 The whole palette is defined once, in the `@theme` block at the top of
-`src/index.css`:
+`src/index.css`. The tokens are **roles**, named after their dark-mode value:
 
-| Token | Hex | Used for |
-| --- | --- | --- |
-| `--color-custard` | `#d0db97` | Headings and body text |
-| `--color-emerald` | `#69b578` | Accents, links, buttons, focus rings |
-| `--color-fern` | `#3a7d44` | Secondary accent, background blooms |
-| `--color-spruce` | `#254d32` | Card surfaces |
-| `--color-shadow` | `#181d27` | Page background |
+| Token | Used for | Dark | Light |
+| --- | --- | --- | --- |
+| `--color-custard` | Headings, body text, hairline borders | `#d0db97` | `#1b2a1f` |
+| `--color-emerald` | Accents, links, buttons, focus rings | `#69b578` | `#25783f` |
+| `--color-fern` | Secondary accent, background blooms | `#3a7d44` | `#7fae86` |
+| `--color-spruce` | Card surfaces | `#254d32` | `#a9c39a` |
+| `--color-shadow` | Page background, and text on an accent fill | `#181d27` | `#f6f7ee` |
+| `--color-danger` | Contact-form validation errors | `#f6a9a9` | `#b3261e` |
 
 Tailwind v4 generates utilities from those tokens automatically (`bg-shadow`,
 `text-custard`, `border-fern`, …), so changing a hex here restyles the entire site.
 
 There is no `tailwind.config.js` — v4 is configured from CSS.
+
+### Light and dark
+
+Dark is the default. The sun/moon button in the navbar switches to a warm
+parchment light theme, and the choice is remembered in `localStorage`. A visitor's
+system `prefers-color-scheme` is deliberately **not** consulted — everyone's first
+visit is dark, and light is opt-in.
+
+Light mode works by re-pointing the same six tokens at new values under
+`html[data-theme='light']`, immediately below the `@theme` block. Because every
+component styles itself from those tokens, nothing else has to change — including
+the two inline `var(--color-custard)` gradients in `Backdrop` and
+`PlaceholderImage`. To retune the light theme, edit that one block.
+
+Note that `emerald` is darker in light mode: the dark-theme green only reaches
+about 3.7:1 on parchment, which fails WCAG AA for body-size link text.
 
 ## Structure
 
@@ -121,9 +138,9 @@ src/
   main.tsx              routes
   App.tsx               shell: backdrop, navbar, outlet, footer
   index.css             Tailwind import, theme tokens, base styles
-  components/           Backdrop, Navbar, Footer, Section, Reveal,
+  components/           Backdrop, Navbar, Footer, Section, Reveal, ThemeToggle,
                         ProjectCard, PlaceholderImage, BrandIcons, ScrollManager
-  hooks/                useActiveSection (nav scroll-spy)
+  hooks/                useActiveSection (nav scroll-spy), useTheme (light/dark)
   lib/                  email (EmailJS transport for the contact form)
   sections/             Hero, About, Projects, TechStack, UserManual, Contact
   pages/                Home, ProjectDetail, NotFound

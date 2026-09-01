@@ -4,6 +4,18 @@
    Theme — the green palette. Every colour lives here and nowhere else, so a
    palette change is a one-file edit. Tailwind v4 turns each --color-* token
    into utilities automatically: bg-shadow, text-custard, border-fern, etc.
+
+   The tokens are roles, named after their dark-mode value:
+
+     shadow   page background, and the text colour on top of an accent fill
+     custard  ink — headings, body copy, hairline borders
+     spruce   card surface tint
+     emerald  accent — links, focus ring, primary buttons
+     fern     backdrop blooms only
+     danger   form validation errors
+
+   Light mode re-points those same tokens at a warm parchment palette further
+   down, so every component follows without changing a single class name.
 --------------------------------------------------------------------------- */
 @theme {
   --color-custard: #d0db97;
@@ -11,6 +23,7 @@
   --color-fern: #3a7d44;
   --color-spruce: #254d32;
   --color-shadow: #181d27;
+  --color-danger: #f6a9a9;
 
   --font-sans:
     'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
@@ -18,6 +31,31 @@
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --animate-reveal: reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ---------------------------------------------------------------------------
+   Light mode — set by the toggle in the navbar (see components/ThemeToggle).
+   Dark is the default, so <html> carries no attribute until a visitor opts in.
+
+   The `html` type selector is deliberate: Tailwind emits the @theme tokens onto
+   `:root` (specificity 0,1,0), so a bare [data-theme='light'] would only tie and
+   leave the outcome to source order. `html[data-theme='light']` is 0,1,1 and
+   wins outright. This must also stay OUTSIDE @theme — a second @theme block
+   merges into the same :root set rather than creating a conditional one.
+
+   Emerald is darkened from its dark-mode value: #69b578 only reaches ~3.7:1 on
+   parchment, which fails AA for body-size link text. #25783f reaches ~4.9:1,
+   and also carries off-white button labels (bg-emerald + text-shadow).
+--------------------------------------------------------------------------- */
+html[data-theme='light'] {
+  --color-custard: #1b2a1f;
+  --color-emerald: #25783f;
+  --color-fern: #7fae86;
+  --color-spruce: #a9c39a;
+  --color-shadow: #f6f7ee;
+  --color-danger: #b3261e;
+
+  color-scheme: light;
 }
 
 @keyframes reveal {
@@ -68,6 +106,12 @@
   .surface {
     @apply border-custard/10 bg-spruce/25 rounded-2xl border backdrop-blur-sm;
   }
+}
+
+/* Dark ink at 10% is too faint to read as an edge on parchment, so light mode
+   gets a slightly stronger hairline. Unlayered, so it beats the utility above. */
+html[data-theme='light'] .surface {
+  border-color: color-mix(in oklab, var(--color-custard) 18%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
