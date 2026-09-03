@@ -13,10 +13,12 @@ export default function Hero() {
     >
       <div className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
         <Reveal>
-          <p className="border-emerald/30 bg-emerald/10 text-emerald mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium">
-            <span aria-hidden className="bg-emerald size-1.5 animate-pulse rounded-full" />
-            Available for new work
-          </p>
+          {site.availableForWork && (
+            <p className="border-emerald/30 bg-emerald/10 text-emerald mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium">
+              <span aria-hidden className="bg-emerald size-1.5 animate-pulse rounded-full" />
+              Available for new work
+            </p>
+          )}
 
           <h1 id="home-heading" className="text-4xl leading-[1.1] sm:text-5xl lg:text-6xl">
             {site.name}

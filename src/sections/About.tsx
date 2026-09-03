@@ -33,7 +33,7 @@ export default function About() {
         <Reveal delay={100}>
           <div className="space-y-4 text-base leading-relaxed">
             <p>
-              I'm a full-stack software engineer with three years in legal tech. I build .NET
+              I'm a full-stack software engineer with over three years in legal tech. I build .NET
               microservices, migrate legacy monolithic UIs onto modern stacks, and refactor old
               code to fix security issues.
             </p>
@@ -62,8 +62,9 @@ export default function About() {
               something that works.
             </p>
             <p>
-              Outside of work, I travel, cook, and stay active with sport. Skiing and the local pub
-              quiz are regulars.
+              Outside of work I travel, cook, and play a lot of sport. Skiing and hiking in
+              the mountains are where I feel most at peace, and I'm always up for a local
+              pub quiz.
             </p>
 
             <dl className="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4">
