@@ -1,10 +1,11 @@
 import { useId, useRef, useState, type FormEvent } from 'react'
-import { CircleAlert, CircleCheck, Loader2, Mail, Send } from 'lucide-react'
+import { CircleAlert, CircleCheck, FileText, Loader2, Mail, Send } from 'lucide-react'
 import { site } from '../data/site'
 import { GithubIcon, LinkedinIcon } from '../components/BrandIcons'
 import Reveal from '../components/Reveal'
 import Section from '../components/Section'
 import { ThrottleError, isEmailConfigured, sendContactEmail } from '../lib/email'
+import resumeUrl from '../assets/Alex_Nicolaidis_Resume_2026.pdf'
 
 interface Fields {
   name: string
@@ -146,7 +147,7 @@ export default function Contact() {
                 disabled={sending}
                 aria-invalid={Boolean(errors.name)}
                 aria-describedby={errors.name ? `${id}-name-error` : undefined}
-                placeholder="Ada Lovelace"
+                placeholder="Luke Skywalker"
                 className={`${fieldClass} ${errors.name ? 'border-danger/70' : 'border-custard/15'}`}
               />
               {errors.name && (
@@ -171,7 +172,7 @@ export default function Contact() {
                 disabled={sending}
                 aria-invalid={Boolean(errors.email)}
                 aria-describedby={errors.email ? `${id}-email-error` : undefined}
-                placeholder="ada@example.com"
+                placeholder="luke@rebellion.com"
                 className={`${fieldClass} ${errors.email ? 'border-danger/70' : 'border-custard/15'}`}
               />
               {errors.email && (
@@ -302,6 +303,20 @@ export default function Contact() {
               <span className="min-w-0">
                 <span className="text-custard block text-sm font-semibold">LinkedIn</span>
                 <span className="text-custard/60 block truncate text-sm">Work history and updates</span>
+              </span>
+            </a>
+
+            <a
+              href={resumeUrl}
+              download
+              className="surface hover:border-emerald/40 flex items-center gap-4 p-5 transition-colors"
+            >
+              <span className="bg-emerald/15 text-emerald grid size-11 shrink-0 place-items-center rounded-xl">
+                <FileText className="size-5" aria-hidden />
+              </span>
+              <span className="min-w-0">
+                <span className="text-custard block text-sm font-semibold">Resume</span>
+                <span className="text-custard/60 block truncate text-sm">Download PDF</span>
               </span>
             </a>
 

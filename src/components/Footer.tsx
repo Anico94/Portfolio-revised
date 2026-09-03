@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
-import { Mail } from 'lucide-react'
+import { FileText, Mail } from 'lucide-react'
 import { navLinks, site } from '../data/site'
 import { GithubIcon, LinkedinIcon } from './BrandIcons'
+import resumeUrl from '../assets/Alex_Nicolaidis_Resume_2026.pdf'
 
 export default function Footer() {
   return (
@@ -59,6 +60,15 @@ export default function Footer() {
             className="surface text-custard/70 hover:text-emerald grid size-11 place-items-center transition-colors"
           >
             <LinkedinIcon className="size-5" />
+          </a>
+          <a
+            href={resumeUrl}
+            download
+            aria-label="Resume"
+            title="Resume"
+            className="surface text-custard/70 hover:text-emerald grid size-11 place-items-center transition-colors"
+          >
+            <FileText className="size-5" aria-hidden />
           </a>
         </div>
       </div>
