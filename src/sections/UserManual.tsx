@@ -26,7 +26,7 @@ export default function UserManual() {
       id="user-manual"
       eyebrow="User manual"
       title="How to work with me"
-      intro="Think of this as the README for working together — how I communicate, when I do my best work, and what I need from the people around me."
+      intro="Think of this as the README for working together, how I communicate, when I do my best work, and what I need from the people around me."
     >
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {userManual.map((entry, index) => {

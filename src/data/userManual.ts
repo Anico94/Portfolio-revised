@@ -15,69 +15,65 @@ export interface ManualEntry {
 
 /**
  * The "how to work with me" section.
- *
- * TODO: this one is worth writing yourself — the placeholder copy is only here
- * to show the layout. Keep each entry to a paragraph plus two or three points.
  */
 export const userManual: ManualEntry[] = [
   {
     title: 'How I communicate',
     icon: 'MessageSquare',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    body: "I'd rather you cut to the chase than send a message with no context. One of my most underrated skills is turning something complex and technical into plain English.",
     points: [
-      'Direct and early rather than polished and late',
-      'Async by default, a call when a thread starts looping',
-      'Written summaries after any decision that matters',
+      'Cut to the chase, no context-free "hi" messages',
+      'I ask a lot of questions upfront so you know I understand, rather than going quiet and getting lost',
+      'In group settings I sometimes sit back and listen first, collecting my thoughts before contributing',
     ],
   },
   {
     title: 'How I work best',
     icon: 'Sparkles',
-    body: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    body: "Give me the why behind the work and I'll run with it — I'm not happy just working through a ticket without understanding the bigger picture.",
     points: [
-      'A clear problem statement beats a detailed spec',
-      'Long uninterrupted blocks for deep work',
-      'Ship something small, then iterate on real feedback',
+      'Give me the why behind the work, not just the ticket',
+      'Analytical and logical — I like decisions backed by reasoning',
+      'I’m a visual learner — diagrams, images, and annotated screenshots land far better than a wall of text',
     ],
   },
   {
     title: 'My working rhythm',
     icon: 'Clock',
-    body: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+    body: "Mornings are when I do my best work, and I protect my lunch — it's how I reset for the rest of the day.",
     points: [
-      'Sharpest in the morning, meetings suit the afternoon',
-      'I protect one no-meeting day a week',
-      'Notifications off while heads-down — I will come back to you',
+      'Sharpest in the mornings or late in the afternoon',
+      'Meetings work best just before or just after lunch',
+      'I protect my lunch — it’s how I reset for the rest of the day',
     ],
   },
   {
     title: 'How to give me feedback',
     icon: 'MessagesSquare',
-    body: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    body: "Say it plainly — feedback is the best way for me to learn and develop, so I'd rather hear it than guess it.",
     points: [
-      'Say it plainly, I would rather hear it than guess it',
-      'Specific examples land better than general impressions',
-      'Nothing is too small to raise — early is cheaper than late',
+      'Say it plainly, I’d rather hear it than guess it',
+      "It's the best way for me to develop as a leader, developer, and person",
+      'Mistakes are fine as long as we learn and put systems in place to avoid them next time',
     ],
   },
   {
     title: 'What I need from you',
     icon: 'HandHeart',
-    body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+    body: "A high-trust environment where we can disagree constructively and land on the outcome that's best for the team.",
     points: [
-      'Context on why something matters, not only what to build',
-      'A named decision-maker when priorities collide',
-      'Room to ask questions before committing to an estimate',
+      'A high-trust environment where disagreement leads somewhere constructive',
+      "Credit where credit's due — always",
+      'I put team success before my own, and like coaching people up along the way',
     ],
   },
   {
     title: 'Where I struggle',
     icon: 'TriangleAlert',
-    body: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum.',
+    body: "I can border on perfectionism — chasing more confidence in an answer than the decision actually needs.",
     points: [
-      'Ambiguous ownership — I will keep asking until it is clear',
-      'Context-switching across several projects in a day',
-      'I over-polish; hold me to the deadline and I will cut scope',
+      'Can over-analyze past the point a decision actually needs — pull me up if you see it happening',
+      'I can doubt my own ability and hold back from putting myself forward — a nudge helps',
     ],
   },
 ]
