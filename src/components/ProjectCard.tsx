@@ -45,6 +45,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             </h3>
             <p className="text-custard/60 mt-1 text-sm">
               {project.year} · {project.role}
+              {project.company && ` · ${project.company}`}
             </p>
           </div>
 

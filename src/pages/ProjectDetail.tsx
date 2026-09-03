@@ -35,6 +35,7 @@ export default function ProjectDetail() {
 
           <p className="text-emerald text-xs font-semibold tracking-[0.2em] uppercase">
             {project.year} · {project.role}
+            {project.company && ` · ${project.company}`}
           </p>
           <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl">{project.title}</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">{project.summary}</p>
@@ -97,7 +98,12 @@ export default function ProjectDetail() {
           <div className="mt-12 space-y-4 text-base leading-relaxed">
             <h2 className="text-2xl">Overview</h2>
             {project.body.map((paragraph) => (
-              <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+              <p
+                key={paragraph.slice(0, 40)}
+                className="[&_a]:text-emerald [&_a]:underline [&_a]:underline-offset-2"
+                // Body copy is authored in src/data/projects.ts, not user input — safe to render as HTML.
+                dangerouslySetInnerHTML={{ __html: paragraph }}
+              />
             ))}
           </div>
         </Reveal>
