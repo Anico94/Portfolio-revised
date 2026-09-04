@@ -1,12 +1,16 @@
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { site } from '../data/site'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 
 export default function NotFound() {
-  useEffect(() => {
-    document.title = `Page not found — ${site.name}`
-  }, [])
+  const { pathname } = useLocation()
+
+  useDocumentMeta({
+    title: `Page not found — ${site.name}`,
+    description: `The page you're looking for doesn't exist. Browse ${site.name}'s projects and background instead.`,
+    path: pathname,
+  })
 
   return (
     <section className="grid min-h-[50vh] place-items-center px-5 py-20 text-center sm:px-8">

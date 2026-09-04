@@ -140,11 +140,15 @@ src/
   index.css             Tailwind import, theme tokens, base styles
   components/           Backdrop, Navbar, Footer, Section, Reveal, ThemeToggle,
                         ProjectCard, PlaceholderImage, BrandIcons, ScrollManager
-  hooks/                useActiveSection (nav scroll-spy), useTheme (light/dark)
+  hooks/                useActiveSection (nav scroll-spy), useTheme (light/dark),
+                        useDocumentMeta (per-page title/description/OG/JSON-LD)
   lib/                  email (EmailJS transport for the contact form)
   sections/             Hero, About, Projects, TechStack, UserManual, Contact
   pages/                Home, ProjectDetail, NotFound
   data/                 all editable content
+scripts/
+  prerender.ts           post-build crawlability step — see "Making the site
+                        crawlable" under Deploying
 ```
 
 `Backdrop` is fixed behind everything and never unmounts, so all content scrolls
@@ -160,3 +164,36 @@ for unknown paths. Otherwise a refresh on `/projects/orbit-analytics` returns a 
   value as `basename` to `BrowserRouter`, and copy `dist/index.html` to
   `dist/404.html` after building
 - **Any static host** — add a rewrite of all paths to `/index.html`
+
+Set `VITE_SITE_URL` (your production origin, no trailing slash) as a build-time
+environment variable on your host, the same way as the `VITE_EMAILJS_*` vars above.
+It's used to bake the real domain into canonical/Open Graph tags and `sitemap.xml`
+at build time — see `.env.example`. Leaving it unset doesn't break anything locally,
+but it means those tags end up pointing at whatever the build server's local origin
+happened to be.
+
+### Making the site crawlable
+
+`npm run build` runs `vite build` and then `scripts/prerender.ts`, which loads the
+built app in headless Chromium (via Playwright), visits `/` and every
+`/projects/:slug`, and writes each route's fully-hydrated HTML into `dist/` (e.g.
+`dist/projects/orbit-analytics/index.html`). Without this, a crawler or link-preview
+bot that doesn't execute JavaScript sees only an empty `<div id="root">` — the SPA's
+real content only exists after React hydrates in a browser.
+
+The same step also (re)writes:
+
+- `dist/sitemap.xml` — every route, from the same `projects` list
+- `dist/robots.txt` — points at the sitemap
+- `dist/_redirects` — an explicit rule per project route (so hosts don't have to
+  guess that `/projects/foo` means `/projects/foo/index.html`), plus the original
+  SPA catch-all so unknown paths still resolve client-side to the 404 page
+
+A real browser still gets the same client-rendered SPA and takes over routing after
+hydration — this only changes what a direct, non-interactive request to a URL sees.
+
+Requires the Playwright Chromium browser once, locally and in CI:
+
+```bash
+npx playwright install chromium
+```

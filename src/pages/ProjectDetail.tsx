@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Check, ExternalLink } from 'lucide-react'
 import { getAdjacentProjects, getProject } from '../data/projects'
@@ -6,15 +5,31 @@ import { site } from '../data/site'
 import PlaceholderImage from '../components/PlaceholderImage'
 import { GithubIcon } from '../components/BrandIcons'
 import Reveal from '../components/Reveal'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 import NotFound from './NotFound'
 
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>()
   const project = getProject(slug)
 
-  useEffect(() => {
-    if (project) document.title = `${project.title} — ${site.name}`
-  }, [project])
+  useDocumentMeta({
+    title: project ? `${project.title} — ${site.name}` : `Project not found — ${site.name}`,
+    description: project?.summary ?? `No project matches this URL on ${site.name}'s portfolio.`,
+    path: project ? `/projects/${project.slug}` : `/projects/${slug ?? ''}`,
+    image: project?.cover.src,
+    jsonLd: project
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'CreativeWork',
+          name: project.title,
+          description: project.summary,
+          creator: { '@type': 'Person', name: site.name },
+          keywords: project.tags.join(', '),
+          ...(project.liveUrl ? { url: project.liveUrl } : {}),
+          ...(project.repoUrl ? { codeRepository: project.repoUrl } : {}),
+        }
+      : undefined,
+  })
 
   // An unknown slug is a genuine 404, not an empty case study.
   if (!project) return <NotFound />

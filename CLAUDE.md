@@ -42,6 +42,14 @@ All three render inside the `App` shell via `<Outlet />`.
 - `src/lib/email.ts` — EmailJS transport for the contact form: `isEmailConfigured`, `ThrottleError`
   and `sendContactEmail`. Named exports (not a component or hook). Keeps the send path, the 2 s
   throttle and the env reads out of `Contact.tsx`.
+- `src/hooks/useDocumentMeta.ts` — sets title, meta description, canonical, Open Graph/Twitter tags
+  and an optional JSON-LD block for the current page. Called once per page component (`Home.tsx`,
+  `ProjectDetail.tsx`, `NotFound.tsx`).
+- `scripts/prerender.ts` — runs after `vite build` (see `npm run build`). Loads the built app in
+  headless Chromium, visits every route, and overwrites `dist/**/index.html` with the hydrated DOM
+  so a crawler that doesn't execute JS still sees real content — the app itself stays a plain
+  client-rendered SPA. Also (re)generates `dist/sitemap.xml`, `dist/robots.txt` and `dist/_redirects`
+  from `src/data/projects.ts`. See README's "Making the site crawlable".
 
 Layer layout: `pages/` (route views) compose `sections/` (Hero, About, Projects, TechStack,
 UserManual, Contact), which use shared `components/`, read from `data/`, and call into `lib/` for
@@ -70,7 +78,7 @@ side-effectful work (currently just email).
 | --- | --- |
 | `npm install` | Install dependencies |
 | `npm run dev` | Vite dev server with hot reload |
-| `npm run build` | Type-check (`tsc -b`) then build to `dist/` |
+| `npm run build` | Type-check (`tsc -b`), build to `dist/`, then prerender every route (`scripts/prerender.ts`) |
 | `npm run preview` | Serve the production build locally |
 | `npm run lint` | Run oxlint |
 
@@ -100,6 +108,11 @@ run both before considering a change done.
   before first paint. That key and the `'light'` value must stay in sync with `src/hooks/useTheme.ts`.
 - **`src/assets/` doesn't exist yet**: images render via `PlaceholderImage`. Create the folder when
   wiring real images (README "Images").
+- **`npm run build` needs Chromium once**: `scripts/prerender.ts` drives Playwright, which needs its
+  browser binary installed locally/in CI first — `npx playwright install chromium`. Without
+  `VITE_SITE_URL` set, canonical/Open Graph URLs and `sitemap.xml` fall back to whatever origin the
+  build machine's local prerender server happens to be, which is wrong once deployed — set it as a
+  real build-time env var (see README "Deploying").
 
 ## Keeping This Updated
 
