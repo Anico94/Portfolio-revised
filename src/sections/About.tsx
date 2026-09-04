@@ -3,12 +3,12 @@ import Reveal from '../components/Reveal'
 import aboutPhoto from '../assets/aboutme.png'
 
 /** TODO: replace with your own facts. */
-const facts = [
-  { label: 'Software Engineering Experience', value: '3+ years' },
-  { label: 'Prior career', value: '7 yrs as a Structural Engineer' },
-  { label: 'Current focus', value: 'Improving workflows with AI' },
-  { label: 'Open to', value: 'Contract & full-time' },
-]
+// const facts = [
+//   { label: 'Software Engineering Experience', value: '3+ years' },
+//   { label: 'Prior career', value: '7 yrs as a Structural Engineer' },
+//   { label: 'Current focus', value: 'Improving workflows with AI' },
+//   { label: 'Open to', value: 'Contract & full-time' },
+// ]
 
 export default function About() {
   return (
