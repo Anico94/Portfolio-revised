@@ -62,8 +62,8 @@ export default function About() {
               something that works.
             </p>
             <p>
-              Outside of work I travel, cook, and play a lot of sport. Skiing and hiking in
-              the mountains are where I feel most at peace, and I'm always up for a local
+              Outside of work I travel, cook, and play a lot of sport. 
+              Skiing and hiking in the mountains are amongst my favourite things to do, and I'm always up for a local
               pub quiz.
             </p>
 
