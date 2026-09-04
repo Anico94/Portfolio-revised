@@ -5,7 +5,7 @@ import { GithubIcon, LinkedinIcon } from '../components/BrandIcons'
 import Reveal from '../components/Reveal'
 import Section from '../components/Section'
 import { ThrottleError, isEmailConfigured, sendContactEmail } from '../lib/email'
-import resumeUrl from '../assets/Alex_Nicolaidis_Resume_2026.pdf'
+import resumeUrl from '../assets/Alex_Nicolaidis_Resume.pdf'
 
 interface Fields {
   name: string

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { FileText, Mail } from 'lucide-react'
 import { navLinks, site } from '../data/site'
 import { GithubIcon, LinkedinIcon } from './BrandIcons'
-import resumeUrl from '../assets/Alex_Nicolaidis_Resume_2026.pdf'
+import resumeUrl from '../assets/Alex_Nicolaidis_Resume.pdf'
 
 export default function Footer() {
   return (
