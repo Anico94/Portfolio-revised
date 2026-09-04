@@ -4,9 +4,9 @@ import aboutPhoto from '../assets/aboutme.png'
 
 /** TODO: replace with your own facts. */
 const facts = [
-  { label: 'Experience', value: '8+ years' },
-  { label: 'Projects shipped', value: '40+' },
-  { label: 'Current focus', value: 'Product engineering' },
+  { label: 'Software Engineering Experience', value: '3+ years' },
+  { label: 'Prior career', value: '7 yrs as a Structural Engineer' },
+  { label: 'Current focus', value: 'Improving workflows with AI' },
   { label: 'Open to', value: 'Contract & full-time' },
 ]
 
@@ -16,7 +16,8 @@ export default function About() {
       id="about"
       eyebrow="About me"
       title="A developer who cares about the details"
-      intro="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      //Re-add if needed
+      // intro="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     >
       <div className="grid gap-8 lg:grid-cols-[1fr_1.3fr] lg:gap-12">
         <Reveal>
@@ -34,8 +35,7 @@ export default function About() {
           <div className="space-y-4 text-base leading-relaxed">
             <p>
               I'm a full-stack software engineer with over three years in legal tech. I build .NET
-              microservices, migrate legacy monolithic UIs onto modern stacks, and refactor old
-              code to fix security issues.
+              and Angular applications to meet clients needs.
             </p>
             <p>
               I care as much about the communication side of engineering as the code. I work
@@ -67,14 +67,15 @@ export default function About() {
               pub quiz.
             </p>
 
-            <dl className="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4">
+            {/* Hide facts */}
+            {/* <dl className="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4">
               {facts.map((fact) => (
                 <div key={fact.label} className="surface p-4">
                   <dt className="text-custard/55 text-xs tracking-wide uppercase">{fact.label}</dt>
                   <dd className="text-custard mt-1 text-sm font-semibold">{fact.value}</dd>
                 </div>
               ))}
-            </dl>
+            </dl> */}
           </div>
         </Reveal>
       </div>

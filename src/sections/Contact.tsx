@@ -321,8 +321,7 @@ export default function Contact() {
             </a>
 
             <p className="text-custard/50 px-1 pt-2 text-sm leading-relaxed">
-              Typical reply time is one to two working days. For anything urgent, email is the
-              fastest way to reach me.
+              Typical reply time is one to two working days.
             </p>
           </div>
         </Reveal>

@@ -1,6 +1,5 @@
 import ukSearchImg from '../assets/uk-search.png'
 import auUnitySearchImg from '../assets/au-unity-search.png'
-import caUnityImg from '../assets/ca-unity.webp'
 import engineeringAutomationImg from '../assets/engineering_automation.png'
 import craneImg from '../assets/crane.jpeg'
 import worldExplorerImg from '../assets/3D-world-explorer.png'
@@ -16,6 +15,8 @@ export interface ImageSlot {
   ratio: string
   /** Imported image source. Omit to render PlaceholderImage instead. */
   src?: string
+  /** Where object-cover anchors when cropping to `ratio`. Omit for centered (default). */
+  focus?: 'top' | 'center'
 }
 
 export interface Project {
@@ -52,71 +53,51 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: 'unity-search-uk',
-    title: 'Unity Search UK',
-    tagline: 'Group of Azure-hosted web applications for legal and property search.',
+    title: 'Unity Search UK (Spider/PieCloud)',
+    tagline: 'Azure-hosted platform for ordering conveyancing searches.',
     year: '2025-Now',
     role: 'Software Engineer',
     tags: ['Angular', 'ASP.NET MVC', 'C# .NET 4.8', '.NET Core 3.1/8', 'Azure', 'SQL Server'],
     cover: { label: 'Unity Search UK platform screenshot', ratio: '16 / 9', src: ukSearchImg },
     summary:
-      'Unity Search UK is a group of web applications communicating with internal and external web services, backed by a single SQL Server database and hosted exclusively on Azure.',
+      'The platform conveyancers use to order the due diligence searches a property transaction needs. Several web applications share one SQL Server database, all hosted on Azure.',
     body: [
-      'Unity Search UK is a group of web applications, communicating with internal and external web services and storing its data in a single SQL Server database. The services also communicate with external clients and suppliers via their own web services. The application is hosted exclusively on Azure.',
-      'The frontend spans Angular 2.0/13/15 alongside ASP.NET 4.8 MVC with Razor, while the backend runs on C# .NET 4.8 and .NET Core 3.1 & 8. Infrastructure includes Azure App Services, Azure Functions, Application Slots, Azure-hosted SQL Server, Azure Service Bus, VMs, and Azure Storage.',
+      'Unity Search UK covers the searches that sit behind a property transaction: local authority, drainage and water, environmental, corporate and court checks. Orders leave the platform over supplier web services and the results come back in for the solicitor to review.',
+      'The codebase spans two generations. Angular 13 and 15 carry newer screens while Angular 2.0 and ASP.NET 4.8 MVC with Razor still serve older ones. Behind them, services run on C# .NET Framework 4.8 alongside .NET Core 3.1 and .NET 8.',
+      'Everything sits on Azure: App Services with deployment slots, Azure Functions, SQL Server, Service Bus for messaging, plus VMs and Storage.',
     ],
     highlights: [
-      'Worked across a mixed-generation Angular frontend (versions 2.0, 13, and 15) alongside legacy ASP.NET MVC/Razor views.',
-      'Built and maintained services spanning .NET Framework 4.8 and .NET Core 3.1 & 8.',
-      'Integrated with external client and supplier web services for legal and property data exchange.',
-      'Worked with Azure App Services, Functions, Service Bus, and Application Slots for deployment and messaging.',
+      'Shipped features across Angular 2.0, 13 and 15, plus legacy ASP.NET MVC and Razor views.',
+      'Built and maintained services on both .NET Framework 4.8 and .NET Core 3.1/8.',
+      'Integrated client and supplier web services to move search orders and results between systems.',
+      'Deployed through Azure App Services and slots, with Service Bus handling messaging between components.',
     ],
     gallery: [],
   },
   {
     slug: 'unity-search-australia',
-    title: 'Unity Search Australia',
-    tagline: 'Cloud-native microservice platform for legal and property information searches.',
-    year: '2023',
+    title: 'Unity Search Australia (Search Manager 22)',
+    tagline: 'Property and company search platform for Australian legal firms.',
+    year: '2023-2024',
     role: 'Software Engineer',
-    tags: ['Angular', 'Flutter', '.NET MVC', 'C# .NET Core 6-8', 'Kubernetes', 'PostgreSQL', 'RabbitMQ'],
+    tags: ['Angular', 'Flutter', 'C# .NET', 'Kubernetes', 'Google Cloud', 'PostgreSQL', 'RabbitMQ'],
     cover: {
       label: 'Unity Search Australia platform screenshot',
       ratio: '16 / 9',
       src: auUnitySearchImg,
+      focus: 'top',
     },
     summary:
-      'Unity Search is a web-based platform for legal and property information searches — a one-stop shop for commercial and business info, due diligence, and risk management, built on a cloud-native microservice architecture.',
+      'Dye & Durham\'s search platform for Australian solicitors, conveyancers and insolvency agents. Title searches, company and bankruptcy checks, PPSR registrations and due-diligence reports, all ordered from one application.',
     body: [
-      "Unity Search is a web based platform for legal and property information searches. It serves as a one stop shop for commercial and business info, due diligence and risk management. It's a cloud based system, with most services deployed through automated deployment tools like Flux and other CI/CD pipelines, following a microservice architecture.",
-      'The frontend spans Angular, Flutter, and .NET MVC, with backend services in C# .NET Core 6-8 and .NET Framework. Infrastructure runs on Google Cloud with Kubernetes, alongside Windows Server 2016 VMs, PostgreSQL, MSSQL, and RabbitMQ.',
+      'A conveyancer settling a property deal needs a title certificate, an ASIC company extract, a PPSR security check and a bankruptcy search, each from a different registry. Unity Search puts them behind one interface, with thousands of products drawn from state and federal data sources. Dye & Durham is an approved ASIC, PPSR and AFSA broker, so results come straight from the registries rather than a cached copy.',
+      'The platform runs as microservices on Kubernetes in Google Cloud. Flux deploys from Git, with older components still on Windows Server 2016 VMs. The frontends are Angular, Flutter and .NET MVC; the services behind them are C# on .NET Core 6-8 and .NET Framework, backed by PostgreSQL and MSSQL, with RabbitMQ carrying messages between them.',
     ],
     highlights: [
-      'Contributed to a microservice architecture deployed via GitOps tooling (Flux) and CI/CD pipelines.',
-      'Worked across Angular, Flutter, and .NET MVC frontends serving due-diligence and risk-management workflows.',
-      'Built and maintained services on .NET Core 6-8 running on Kubernetes in Google Cloud.',
-      'Worked with PostgreSQL, MSSQL, and RabbitMQ for data storage and asynchronous messaging.',
-    ],
-    gallery: [],
-  },
-  {
-    slug: 'unity-canada',
-    title: 'Unity Canada',
-    tagline: 'Azure-hosted web applications for legal and property information searches.',
-    year: '2025',
-    role: 'Software Engineer',
-    tags: ['Angular 18', 'jQuery', 'Java 17', 'Spring', 'Hibernate', 'AWS', 'PostgreSQL 16'],
-    cover: { label: 'Unity Canada platform screenshot', ratio: '16 / 9', src: caUnityImg },
-    summary:
-      'Unity Canada is a group of web applications communicating with internal and external web services, storing its data in a single SQL Server database and hosted exclusively on Azure.',
-    body: [
-      "Unity Canada is a group of web applications, communicating with internal and external web services and storing its data in a single SQL Server database. The services also communicate with external clients and suppliers via their own web services. The application is hosted exclusively on Azure.",
-      'The frontend uses Angular 18 and jQuery, with a Java backend running on Apache Tomcat 11, Java 17, Spring, and Hibernate. Infrastructure spans AWS, Red Hat Enterprise Linux, Windows Server 2012, and PostgreSQL 16.',
-    ],
-    highlights: [
-      'Worked on an Angular 18 and jQuery frontend integrated with a Java/Spring backend.',
-      'Built and maintained services on Apache Tomcat 11 with Java 17, Spring, and Hibernate.',
-      'Worked across mixed infrastructure spanning AWS, Red Hat Enterprise Linux, and Windows Server 2012.',
-      'Integrated with external client and supplier web services for legal and property data exchange.',
+      'Built and maintained .NET Core services running on Kubernetes in Google Cloud, deployed through Flux and CI/CD pipelines.',
+      'Built and maintained features in the Angular frontend.',
+      'Integrated third-party registry APIs across the microservice architecture, mapping their request and response formats onto the platform\'s internal contracts.',
+      'Used RabbitMQ to move long-running search orders off the request path and process them in the background.',
     ],
     gallery: [],
   },
@@ -126,6 +107,7 @@ export const projects: Project[] = [
     tagline: 'Self-taught Python tooling that took the repetitive work out of crane analysis and drafting.',
     year: '2020-2022',
     role: 'Senior Structural Engineer',
+    company: 'Robert Bird Group',
     tags: ['Python', 'Automation', 'Grasshopper', 'Microstran', 'Crane Analysis'],
     cover: {
       label: 'Automation tooling screenshot',
@@ -174,7 +156,7 @@ export const projects: Project[] = [
       'Cross River Rail is a 10.2 km rail line running through central Brisbane, Australia, at a cost of roughly £3 billion. At the centre of it are 5.9 km of twin tunnels beneath the CBD and the Brisbane River, plus four new underground stations at Boggo Road, Woolloongabba, Albert Street and Roma Street. The programme also covers upgrades to existing surface stations and new stations on the Gold Coast line. Services are due to start in 2026.',
       'I led a team of six engineers and four drafters on the Woolloongabba Underground Station, working alongside CPB Contractors. The work covered construction-phase engineering, build sequencing and temporary works. The station sits in a live rail corridor, so each stage of the sequence had to hold the surrounding ground and structures while trains kept running a short distance away.',
       'On the design side I worked on the initial retention systems and the temporary steel decking platforms that carried the plant and equipment used to excavate the station caverns and tunnels below. Before any of that, I ran condition assessments on the existing infrastructure in the corridor and set out how each structure would be propped or supported as the works moved around it.',
-      'A lot of the job was talking to people rather than drawing. I met regularly with architects, site teams and subcontractors, and spent time on site checking that what had been installed matched what we had designed. Where the drawings and the site disagreed, it was either sorted there and then or fed back into the next stage of the sequence.',
+      'A lot of the job was talking to people rather than designing. I met regularly with architects, site teams and subcontractors, and spent time on site checking that what had been installed matched what we had designed. Where the drawings and the site disagreed, it was either sorted there and then or fed back into the next stage of the sequence.',
       'Public safety shaped most of the sequencing decisions. The rail network stayed open throughout, so I worked with the network departments on access, staging and protection of the operating railway, and took part in the safety briefings that went with each phase of the works.',
     ],
     highlights: [
@@ -192,7 +174,8 @@ export const projects: Project[] = [
     title: 'Tower Crane Projects',
     tagline: 'Bespoke structural design for tower cranes on construction sites worldwide.',
     year: '2016-2022',
-    role: 'Senior Structural Engineer',
+    role: 'Structural Engineer',
+    company: 'Robert Bird Group',
     tags: [
       'Structural Design',
       'Tower Cranes',
@@ -202,7 +185,7 @@ export const projects: Project[] = [
     ],
     cover: { label: 'Tower crane design drawing', ratio: '16 / 9', src: craneImg },
     summary:
-      'Before I moved into software, I spent six years as a structural engineer designing tower cranes for construction sites around the world. Every design had to work around the site it stood on and satisfy the crane standards of the country it was built in.',
+      'Before I moved into software, I spent seven years as a structural engineer designing tower cranes for construction sites around the world. Every design had to work around the site it stood on and satisfy the crane standards of the country it was built in.',
     body: [
       'Every crane was a one-off. Sites came with their own problems, whether that was a footprint too tight for a standard base, an awkward tie-in to the building, or foundations that had to sit over existing structures. I worked with the crane contractor to design something that fit the site and still gave them the lifting capacity their program needed.',
       'The clearest example is the <a href="https://www.marr.com.au/projects/tx-tower/" target="_blank" rel="noopener noreferrer">TX Tower deconstruction</a> in Sydney, delivered by the Robert Bird Group team I was part of, with Marr Contracting as the crane contractor we worked with on the solution. The 233 metre transmission tower at Willoughby could not take lateral supports, so the crane had to reach over the top of it without a temporary structure propping it up.',
@@ -227,7 +210,7 @@ export const projects: Project[] = [
     tags: ['3D', 'WebGL', 'React', 'Three.js', 'Geography', 'Education'],
     cover: { label: '3D world map interface', ratio: '16 / 9', src: worldExplorerImg },
     summary:
-      'A 3D world map flag and geography learning tool that turns exploring countries, flags, and borders into an interactive experience.',
+      'Currently building a 3D world map flag and geography learning tool that turns exploring countries, flags, and borders into an interactive experience.',
     body: [
       'A 3D world map flag and geography learning tool, built to make exploring the world\'s countries, flags, and geography interactive rather than rote memorisation. Built with React, react-globe.gl, and Three.js, rendering all 241 countries from Natural Earth boundary data with no runtime network calls — country geometry, metadata, and flags are baked into the app at build time.',
       'Every country is filled with a colour that differs from all of its neighbours, computed with a Welsh–Powell greedy graph colouring over adjacency derived two ways: shared borders from the boundary data\'s topology, and visual adjacency from a spatial hash over each country\'s vertices (plain bounding-box checks fail badly for countries like Russia that span half the globe).',
@@ -239,6 +222,8 @@ export const projects: Project[] = [
       'Predictive search with historical alias support (USA, UK, Holland, Burma, Ivory Coast, Persia, …) that flies the camera to and highlights the matched country.',
       'Custom map-colouring algorithm combining topological and visual adjacency so no two neighbouring countries ever share a fill colour.',
     ],
+    liveUrl: 'https://anico94.github.io/3D-World-Explorer/',
+    repoUrl: 'https://github.com/Anico94/3D-World-Explorer',
     gallery: [],
   },
   {
@@ -263,6 +248,7 @@ export const projects: Project[] = [
       'JWT-based authentication with bcrypt password hashing for secure sign-up and login.',
       'Latest company news via the Marketaux API to help users stay informed on their holdings.',
     ],
+    repoUrl: 'https://github.com/Anico94/Stocks-and-Crypto-Client',
     gallery: [],
   },
   {
@@ -288,6 +274,7 @@ export const projects: Project[] = [
       'User accounts and data persistence via Firebase Authentication and Firestore.',
       'Responsive UI built with React, MUI, and Chakra UI.',
     ],
+    repoUrl: 'https://github.com/Anico94/jja-notes',
     gallery: [],
   },
   {
@@ -314,6 +301,7 @@ export const projects: Project[] = [
       'One-click PDF export of any workout for sharing with trainers or friends.',
       'Full CRUD on workouts and exercises with a Bootstrap-styled UI.',
     ],
+    repoUrl: 'https://github.com/Anico94/Gym_tracker',
     gallery: [],
   },
 ]

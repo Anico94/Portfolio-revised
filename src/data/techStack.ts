@@ -58,6 +58,6 @@ export const techStack: TechGroup[] = [
   {
     title: 'AI Tools',
     icon: 'Bot',
-    items: ['GitHub Copilot', 'Claude Code', 'Opencode', 'ChatGPT', 'MCP/Docker MCP Gateway'],
+    items: ['GitHub Copilot', 'Claude Code', 'Opencode', 'ChatGPT', 'Docker MCP Gateway'],
   },
 ]

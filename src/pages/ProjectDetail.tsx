@@ -86,7 +86,7 @@ export default function ProjectDetail() {
                 src={project.cover.src}
                 alt={project.cover.label}
                 style={{ aspectRatio: project.cover.ratio }}
-                className="w-full rounded-xl object-cover"
+                className={`w-full rounded-xl object-cover ${project.cover.focus === 'top' ? 'object-top' : ''}`}
               />
             ) : (
               <PlaceholderImage label={project.cover.label} ratio={project.cover.ratio} />

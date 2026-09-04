@@ -21,7 +21,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             src={project.cover.src}
             alt={project.cover.label}
             style={{ aspectRatio: project.cover.ratio }}
-            className="border-custard/10 w-full rounded-xl border object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            className={`border-custard/10 w-full rounded-xl border object-cover transition-transform duration-500 group-hover:scale-[1.02] ${project.cover.focus === 'top' ? 'object-top' : ''}`}
           />
         ) : (
           <PlaceholderImage
